@@ -1,4 +1,11 @@
-import Dashboard from './dashboard/dashobard.js';
+import {Dashboard} from './dashboard/dashboard.js';
 
-const config = {};
-const dashboard = new Dashboard(config);// eslint-disable-line no-unused-vars
+export const config = {};
+
+export class App {
+  constructor() {
+    this.dashboard = new Dashboard(config);
+  }
+}
+
+const app = new App();// eslint-disable-line no-unused-vars
