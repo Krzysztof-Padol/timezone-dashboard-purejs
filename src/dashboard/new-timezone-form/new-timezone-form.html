@@ -1,0 +1,8 @@
+<form name="add-timezone" class="form-inline" onkeypress="return event.keyCode != 13" onSubmit="return false;">
+  <select id="ddTimezone" class="form-control">
+    {{~it.timezones :value:index}}
+      <option value="{{=value}}">{{=value}}</option>
+    {{~}}
+  </select>
+  <button type="submit" class="btn btn-primary">Add timezone</button>
+</form>

@@ -1,15 +1,16 @@
 import template from './dashboard.html';
+import {NewTimezoneForm} from './new-timezone-form/new-timezone-form.js';
 import doT from 'dot';
 
 export const exceptionMsg = {
   noTargetEl: 'You should pass targetEl (DOM element) in config',
-  noDomTargetEl: 'You should DOM element as a targetEl in config',
-}
+  noDomTargetEl: 'You should DOM element as a targetEl in config'
+};
 
 export const elementsQuery = {
   mainTzContainer: '#main-timezones-container',
   addTzContainer: '#add-timezone-container',
-  additionalTzContainer: '#add-timezone-container',
+  additionalTzContainer: '#add-timezone-container'
 };
 
 export class Dashboard {
@@ -22,12 +23,14 @@ export class Dashboard {
     // init
     this.render();
     this.assignDomElements();
+
+    this.addElements();
   }
 
   checkConfig() {
     if (!this.config.targetEl) {
       throw new Error(exceptionMsg.noTargetEl);
-    } else if(this.config.targetEl && !this.config.targetEl.tagName) {
+    } else if (this.config.targetEl && !this.config.targetEl.tagName) {
       throw new Error(exceptionMsg.noDomTargetEl);
     }
   }
@@ -37,12 +40,22 @@ export class Dashboard {
   }
 
   assignDomElements() {
-    for(let key in elementsQuery) {
-      if(elementsQuery.hasOwnProperty(key)) {
+    for (let key in elementsQuery) {
+      if (elementsQuery.hasOwnProperty(key)) {
         this.domEl[key] = this.config
           .targetEl
           .querySelector(elementsQuery[key]);
-      } 
+      }
     }
+  }
+
+  addElements() {
+    this.addNewTimezoneForm();
+  }
+
+  addNewTimezoneForm() {
+    new NewTimezoneForm({
+      targetEl: this.domEl.addTzContainer
+    });
   }
 }

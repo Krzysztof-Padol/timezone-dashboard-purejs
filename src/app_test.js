@@ -31,7 +31,7 @@ describe('App', () => {
   });
 
   describe('config', () => {
-    it("should have targetEl defined", function() {
+    it('should have targetEl defined', () => {
       expect(config.targetEl).toBeDefined();
     });
   });
