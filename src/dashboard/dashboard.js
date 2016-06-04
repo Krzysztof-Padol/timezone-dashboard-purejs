@@ -17,9 +17,11 @@ export class Dashboard {
     this.config = config;
     this.checkConfig();
     this.timezones = [];
+    this.domEl = {};
 
     // init
     this.render();
+    this.assignDomElements();
   }
 
   checkConfig() {
@@ -35,6 +37,12 @@ export class Dashboard {
   }
 
   assignDomElements() {
-
+    for(let key in elementsQuery) {
+      if(elementsQuery.hasOwnProperty(key)) {
+        this.domEl[key] = this.config
+          .targetEl
+          .querySelector(elementsQuery[key]);
+      } 
+    }
   }
 }

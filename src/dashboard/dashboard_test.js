@@ -35,10 +35,20 @@ describe('Dashboard', () => {
       expect(dashboard.timezones.length).toEqual(0);
     });
 
+    it("should have prepared object for a dom elements", function() {
+      expect(dashboard.domEl).toEqual(jasmine.any(Object));
+    });
+
     it("should render three containers", function() {
       expect(divHolder.querySelector(elementsQuery.mainTzContainer).id).toBeDefined();
       expect(divHolder.querySelector(elementsQuery.addTzContainer).id).toBeDefined();
       expect(divHolder.querySelector(elementsQuery.additionalTzContainer).id).toBeDefined();
+    });
+
+    it("should have assigned proper dom elements", function() {
+      expect(dashboard.domEl.mainTzContainer).toEqual(divHolder.querySelector(elementsQuery.mainTzContainer));
+      expect(dashboard.domEl.addTzContainer).toEqual(divHolder.querySelector(elementsQuery.addTzContainer));
+      expect(dashboard.domEl.additionalTzContainer).toEqual(divHolder.querySelector(elementsQuery.additionalTzContainer));
     });
   });
 });
