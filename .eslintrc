@@ -61,7 +61,7 @@
     "no-regex-spaces": 2, // disallow multiple spaces in a regular expression literal
     "no-extra-label": 2,
     "no-unused-labels": 2,
-    "quote-props": 2, // disallow reserved words being used as object literal keys (off by default)
+    "quote-props": 0, // disallow reserved words being used as object literal keys (off by default)
     "no-sparse-arrays": 2, // disallow sparse arrays
     "no-unreachable": 2, // disallow unreachable statements after a return, throw, continue, or break statement
     "use-isnan": 2, // disallow comparisons with the value NaN

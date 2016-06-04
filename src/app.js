@@ -1,11 +1,17 @@
 import {Dashboard} from './dashboard/dashboard.js';
 
-export const config = {};
+const config = {
+  targetEl: document.querySelector('#main-content')
+};
 
-export class App {
+class App {
   constructor() {
     this.dashboard = new Dashboard(config);
   }
 }
 
-const app = new App();// eslint-disable-line no-unused-vars
+if (!window.__karma__) {
+  const app = new App();// eslint-disable-line no-unused-vars
+}
+
+export {App, config};
