@@ -3,19 +3,13 @@ import {NewTimezoneForm, exceptionMsg, elementsQuery} from './new-timezone-form.
 describe('NewTimezoneForm', () => {
   describe('passing config to constructor', () => {
     it('should throw error when config will be without target element', () => {
-      function fn() {
-        new NewTimezoneForm();
-      }
-
-      expect(fn()).toThrow(new Error(exceptionMsg.noTargetEl));
+      expect(() => new NewTimezoneForm())
+        .toThrow(new Error(exceptionMsg.noTargetEl));
     });
 
     it('should throw error when targetEl in config will be different then DOM element', () => {
-      function fn() {
-        new NewTimezoneForm({targetEl: 123});
-      }
-
-      expect(fn()).toThrow(new Error(exceptionMsg.noDomTargetEl));
+      expect(() => new NewTimezoneForm({targetEl: 123}))
+        .toThrow(new Error(exceptionMsg.noDomTargetEl));
     });
   });
 
