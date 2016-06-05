@@ -8,13 +8,26 @@ import moment from 'moment-timezone';
 
 export {exceptionMsg};
 
+/**
+ * [elementsQuery Main DOM elemement used in Dashboard]
+ * @type {Object}
+ */
 export const elementsQuery = {
   mainTzContainer: '#main-timezones-container',
   addTzContainer: '#add-timezone-container',
   additionalTzContainer: '#additional-timezones-container'
 };
 
+/**
+ * Dashboard initialize main part of application
+ * like a "main timezones", "new timezone form" and so on
+ */
 export class Dashboard extends Element {
+  /**
+   * It will create whole element and append it to targetEl
+   * passsed in config
+   * @param  {Object} config contains only targetEl
+   */
   constructor(config = {}) {
     super(config, elementsQuery);
     this.timezones = [];
@@ -25,6 +38,10 @@ export class Dashboard extends Element {
     this.config.targetEl.innerHTML = doT.template(template)();
   }
 
+  /**
+   * After render Element create Store data
+   * for a used current time and another elements
+   */
   post() {
     super.post();
     this.storeCurrentTime = new StoreCurrentTime();
@@ -36,6 +53,9 @@ export class Dashboard extends Element {
     this.initMainTimezones();
   }
 
+  /**
+   * Creating new timezone form
+   */
   addNewTimezoneForm() {
     new NewTimezoneForm({
       targetEl: this.domEl.addTzContainer,
@@ -43,6 +63,9 @@ export class Dashboard extends Element {
     });
   }
 
+  /**
+   * Creating main timezones card
+   */
   initMainTimezones() {
     new TimezoneCard({
       targetEl: this.domEl.mainTzContainer,
@@ -60,6 +83,9 @@ export class Dashboard extends Element {
     });
   }
 
+  /**
+   * Callback function for a "new timezone form"
+   */
   addNewTimeZone(value) {
     new TimezoneCard({
       targetEl: this.domEl.additionalTzContainer,

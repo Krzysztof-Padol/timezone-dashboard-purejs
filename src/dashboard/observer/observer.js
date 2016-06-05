@@ -1,3 +1,7 @@
+/**
+ * Observer class used for sharing
+ * data changes in application
+ */
 class Observer {
   constructor() {
     this.registered = [];

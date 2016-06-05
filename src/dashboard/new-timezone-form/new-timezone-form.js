@@ -5,12 +5,22 @@ import doT from 'dot';
 
 export {exceptionMsg};
 
+/**
+ * [elementsQuery Main DOM elemement used in Dashboard]
+ * @type {Object}
+ */
 export const elementsQuery = {
   submitButton: 'button[type="submit"]',
   selectList: '#ddTimezone'
 };
 
 export class NewTimezoneForm extends Element {
+  /**
+   * It will create whole element and append it to targetEl
+   * passsed in config
+   * @param  {Object} config contains targetEl and onAddTimezone
+   *                         callback function
+   */
   constructor(config = {}) {
     super(config, elementsQuery);
     this.timezones = [];

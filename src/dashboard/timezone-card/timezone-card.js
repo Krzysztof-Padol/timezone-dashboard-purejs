@@ -4,6 +4,10 @@ import {StoreCurrentTime} from './../store-current-time/store-current-time.js';
 import {Element, exceptionMsg} from './../element/element.js';
 import doT from 'dot';
 
+/**
+ * Error messages used in element
+ * @type {[type]}
+ */
 const exceptionMsgInternal = Object.assign({}, exceptionMsg, {
   noStoreCurrentTime: 'Please pass store current time in config',
   wrongInstance: 'Store current time property should be instance of StoreCurrentTime',
@@ -15,6 +19,10 @@ const defaultCssClass = 'col-xs-12 col-sm-6 col-md-3 col-lg-2';
 
 export {exceptionMsgInternal as exceptionMsg};
 
+/**
+ * [elementsQuery Main DOM elemement used in Dashboard]
+ * @type {Object}
+ */
 export const elementsQuery = {
   flipContainer: '.timezone-card__flip-container',
   timeContainer: '.timezone-card__time-container',
@@ -26,10 +34,22 @@ export const elementsQuery = {
 };
 
 export class TimezoneCard extends Element {
+  /**
+   * It will create whole element and append it to targetEl
+   * passsed in config
+   * @param  {Object} config contains:
+   *                         targetEl,
+   *                         time,
+   *                         timezone,
+   *                         storeCurrentTime (instance of StoreCurrentTime)
+   */
   constructor(config = {}) {
     super(config, elementsQuery);
   }
 
+  /**
+   * Extend default checking config
+   */
   checkConfig() {
     super.checkConfig();
     if (!this.config.storeCurrentTime) {
@@ -94,6 +114,12 @@ export class TimezoneCard extends Element {
     this.storeCurrentTime.unregister(this.onCurrentTimeChange);
   }
 
+  /**
+   * Callback function register by this object in
+   * storeCurrentTime and it is ivoked on each change
+   * @param  {[type]} newMomentTime [description]
+   * @return {[type]}               [description]
+   */
   onNewTime(newMomentTime) {
     this.updateTime(newMomentTime);
   }
