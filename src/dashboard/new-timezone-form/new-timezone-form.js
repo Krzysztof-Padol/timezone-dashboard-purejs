@@ -31,4 +31,16 @@ export class NewTimezoneForm extends Element {
   prepareTimeZoneList() {
     this.timezones = moment.tz.names();
   }
+
+  addListeners() {
+    this.addSmartListeners('submitButton', 'click', this.addTimezone.bind(this));
+  }
+
+  addTimezone() {
+    let selectedIndex = this.domEl.selectList.selectedIndex;
+    let currentValue = this.domEl.selectList.options[selectedIndex].value;
+
+    console.log(currentValue);
+    // this.config.onTimeZoneAdd ? this.config.onTimeZoneAdd(currentValue) : null;
+  }
 }

@@ -16,6 +16,9 @@ export class Element {
     this.postRender();
     this.assignDomElements();
     this.post();
+
+    this.smartListeners = {};
+    this.addListeners()
   }
 
   checkConfig() {
@@ -32,7 +35,36 @@ export class Element {
 
   postRender() {}
 
+  addListeners() {}
+
   post() {}
+
+  addSmartListeners (elKey, eventName, cb) {
+    if (!this.smartListeners[elKey]) {
+      this.smartListeners[elKey] = {}
+    }
+    
+    this.smartListeners[elKey][eventName] = cb;
+    this.domEl[elKey].addEventListener('click', cb);
+  }
+
+  removeAllSmartListeners () {
+    for (let elKey in this.smartListeners) {
+      if (this.elementsQuery.hasOwnProperty(elKey)) {
+        for (let eventName in this.smartListeners[elKey]) {
+          if (this.smartListeners[elKey].hasOwnProperty(eventName)) {
+            this.domEl[elKey]
+              .removeEventListener(
+                eventName,
+                this.smartListeners[elKey][eventName]
+              );
+
+            delete this.smartListeners[elKey][eventName];
+          }
+        }
+      }
+    }
+  }
 
   assignDomElements() {
     for (let key in this.elementsQuery) {
@@ -42,5 +74,9 @@ export class Element {
           .querySelector(this.elementsQuery[key]);
       }
     }
+  }
+
+  removeElement() {
+    this.removeAllSmartListeners();
   }
 }
