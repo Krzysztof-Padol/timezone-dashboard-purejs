@@ -1,7 +1,10 @@
 import template from './dashboard.html';
 import {NewTimezoneForm} from './new-timezone-form/new-timezone-form.js';
+import {TimezoneCard} from './timezone-card/timezone-card.js';
+import {StoreCurrentTime} from './store-current-time/store-current-time.js';
 import {Element, exceptionMsg} from './element/element.js';
 import doT from 'dot';
+import moment from 'moment-timezone';
 
 export {exceptionMsg};
 
@@ -24,16 +27,34 @@ export class Dashboard extends Element {
 
   post() {
     super.post();
+    this.storeCurrentTime = new StoreCurrentTime();
     this.addElements();
   }
 
   addElements() {
     this.addNewTimezoneForm();
+    this.initMainTimezones();
   }
 
   addNewTimezoneForm() {
     new NewTimezoneForm({
       targetEl: this.domEl.addTzContainer
+    });
+  }
+
+  //TODO: TEST IT
+  initMainTimezones() {
+    new TimezoneCard({
+      targetEl: this.domEl.mainTzContainer,
+      time: this.storeCurrentTime.value,
+      timezone: moment.tz.guess(),
+      storeCurrentTime: this.storeCurrentTime
+    });
+    new TimezoneCard({
+      targetEl: this.domEl.mainTzContainer,
+      time: this.storeCurrentTime.value,
+      timezone: 'GMT',
+      storeCurrentTime: this.storeCurrentTime
     });
   }
 }

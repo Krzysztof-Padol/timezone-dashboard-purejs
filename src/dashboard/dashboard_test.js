@@ -7,10 +7,22 @@ import {
 
 describe('Dashboard', () => {
   let NewTimezoneFormMock;
+  let StoreCurrentTimeMock;
+  let TimezoneCardMock;
 
   beforeEach(() => {
     NewTimezoneFormMock = jasmine.createSpy();
     DashboardRewireAPI.__Rewire__('NewTimezoneForm', NewTimezoneFormMock);
+  });
+
+  beforeEach(() => {
+    StoreCurrentTimeMock = jasmine.createSpy();
+    DashboardRewireAPI.__Rewire__('StoreCurrentTime', StoreCurrentTimeMock);
+  });
+
+  beforeEach(() => {
+    TimezoneCardMock = jasmine.createSpy();
+    DashboardRewireAPI.__Rewire__('TimezoneCard', StoreCurrentTimeMock);
   });
 
   describe('passing config to constructor', () => {
@@ -39,6 +51,11 @@ describe('Dashboard', () => {
 
     it('should assing config', () => {
       expect(dashboard.config).toBe(config);
+    });
+
+    it('should assing new object of StoreCurrentTime', () => {
+      expect(StoreCurrentTimeMock).toHaveBeenCalled();
+      expect(dashboard.storeCurrentTime).toBeDefined();
     });
 
     it('should create empty array of timezones', () => {
