@@ -1,0 +1,63 @@
+.centered {
+  text-align: center;
+  font-size: 0; }
+
+.centered > div {
+  float: none;
+  display: inline-block;
+  text-align: left;
+  font-size: 13px; }
+
+.timezone-card__flip-container {
+  margin: 10px auto;
+  width: 100%;
+  height: 200px;
+  transition: all 0.2s;
+  perspective: 900px; }
+
+.timezone-card__front, .timezone-card__back {
+  padding: 1em;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  min-height: 100%;
+  text-align: left;
+  backface-visibility: hidden;
+  transform-style: preserve3d;
+  transition: all 0.4s; }
+
+.timezone-card__front {
+  color: white;
+  background: #F11D42; }
+
+.timezone-card__back {
+  color: #374E58;
+  background: #1DB3F1;
+  transform: rotateY(-180deg); }
+  .timezone-card__back h3,
+  .timezone-card__back input,
+  .timezone-card__back .btn {
+    margin: 8px 0px; }
+
+.timezone-card--flipped .timezone-card__back {
+  transform: rotateY(0deg); }
+
+.timezone-card--flipped .timezone-card__front {
+  transform: rotateY(180deg); }
+
+.timezone-card__delete {
+  position: absolute;
+  top: 10px;
+  right: 10px; }
+
+#add-timezone-container {
+  background-color: #2ABE99;
+  margin-top: 30px;
+  padding: 40px 0 80px; }
+  #add-timezone-container .fa.fa-10x {
+    font-size: 10em; }
+  #add-timezone-container .lead {
+    margin: 20px 0; }
+
+#ddTimezone {
+  margin: 10px 0; }
