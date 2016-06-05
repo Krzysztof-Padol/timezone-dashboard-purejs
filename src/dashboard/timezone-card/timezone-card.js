@@ -1,6 +1,6 @@
 import template from './timezone-card.html';
 import moment from 'moment-timezone';
-import {StoreCurrentTime} from './../store-current-time/store-current-time.js'
+import {StoreCurrentTime} from './../store-current-time/store-current-time.js';
 import {Element, exceptionMsg} from './../element/element.js';
 import doT from 'dot';
 
@@ -18,13 +18,12 @@ export const elementsQuery = {
   deleteIcon: '.delete',
   dateInput: 'input[type="date"]',
   timeInput: 'input[type="time"]',
-  changeButton: 'button[type="submit"]',
+  changeButton: 'button[type="submit"]'
 };
 
 export class TimezoneCard extends Element {
   constructor(config = {}) {
     super(config, elementsQuery);
-    this.storeCurrentTime = config.storeCurrentTime;
   }
 
   checkConfig() {
@@ -42,15 +41,54 @@ export class TimezoneCard extends Element {
 
   render() {
     let tempFn = doT.template(template);
-    let div = document.createElement("div");
+    let div = document.createElement('div');
+    let targetEl = this.config.targetEl;
 
     div.innerHTML = tempFn({
       time: this.config.time.clone().tz(this.config.timezone).format('lll'),
       dateFormat: this.config.time.clone().tz(this.config.timezone).format('YYYY-MM-DD'),
       timeFormat: this.config.time.clone().tz(this.config.timezone).format('hh:mm'),
       timezone: this.config.timezone
-    }); 
+    });
 
-    this.config.targetEl.appendChild(div);
+    this.config.targetEl = div;
+    targetEl.appendChild(div);
+  }
+
+  post() {
+    super.post();
+    this.storeCurrentTime = this.config.storeCurrentTime;
+    this.onCurrentTimeChange = this.onNewTime.bind(this);
+    this.storeCurrentTime.register(this.onCurrentTimeChange);
+  }
+
+  // TODO: test it
+  addListeners() {
+    this.addSmartListeners('deleteIcon', 'click', this.removeElement.bind(this));
+    this.addSmartListeners('changeButton', 'click', () => {
+      let newDateTime = [
+        this.domEl.dateInput.value,
+        this.domEl.timeInput.value
+      ].join(' ');
+      let newDateTimeMoment = moment.tz(newDateTime, this.config.timezone);
+
+      this.storeCurrentTime.update(newDateTimeMoment);
+    });
+  }
+
+  removeElement() {
+    super.removeElement();
+    this.storeCurrentTime.unregister(this.onCurrentTimeChange);
+  }
+
+  // TODO: test it
+  onNewTime(newMomentTime) {
+    this.updateTime(newMomentTime);
+  }
+
+  // TODO: test it
+  updateTime(time) {
+    this.config.time = time.clone().tz(this.config.timezone).format('lll');
+    this.domEl.timeContainer.innerHTML = this.config.time;
   }
 }

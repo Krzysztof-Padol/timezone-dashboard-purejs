@@ -40,7 +40,8 @@ export class NewTimezoneForm extends Element {
     let selectedIndex = this.domEl.selectList.selectedIndex;
     let currentValue = this.domEl.selectList.options[selectedIndex].value;
 
-    console.log(currentValue);
-    // this.config.onTimeZoneAdd ? this.config.onTimeZoneAdd(currentValue) : null;
+    if (this.config.onAddTimezone) {
+      this.config.onAddTimezone(currentValue);
+    }
   }
 }

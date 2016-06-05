@@ -9,7 +9,10 @@ import moment from 'moment-timezone';
 describe('TimezoneCard', () => {
   let StoreCurrentTimeMock;
   beforeEach(() => {
-    StoreCurrentTimeMock = function StoreCurrentTimeMock() {};
+    StoreCurrentTimeMock = function StoreCurrentTime() {
+      this.register = jasmine.createSpy();
+      this.unregister = jasmine.createSpy();
+    };
     TimezoneCardRewireAPI.__Rewire__('StoreCurrentTime', StoreCurrentTimeMock);
   });
 
@@ -26,34 +29,34 @@ describe('TimezoneCard', () => {
 
     it('should throw error when there is no store current time value', () => {
       expect(() => new TimezoneCard({
-          targetEl: document.createElement('div')
-        }))
-        .toThrow(new Error(exceptionMsg.noStoreCurrentTime));
+        targetEl: document.createElement('div')
+      }))
+      .toThrow(new Error(exceptionMsg.noStoreCurrentTime));
     });
 
     it('should throw error when no store current have a different instance', () => {
       expect(() => new TimezoneCard({
-          targetEl: document.createElement('div'),
-          storeCurrentTime: function example() {}
-        }))
-        .toThrow(new Error(exceptionMsg.wrongInstance));
+        targetEl: document.createElement('div'),
+        storeCurrentTime: function example() {}
+      }))
+      .toThrow(new Error(exceptionMsg.wrongInstance));
     });
 
     it('should throw error when there is no time in config', () => {
       expect(() => new TimezoneCard({
-          targetEl: document.createElement('div'),
-          storeCurrentTime: new StoreCurrentTimeMock()
-        }))
-        .toThrow(new Error(exceptionMsg.noTime));
+        targetEl: document.createElement('div'),
+        storeCurrentTime: new StoreCurrentTimeMock()
+      }))
+      .toThrow(new Error(exceptionMsg.noTime));
     });
 
     it('should throw error when there is no timezone in config', () => {
       expect(() => new TimezoneCard({
-          targetEl: document.createElement('div'),
-          storeCurrentTime: new StoreCurrentTimeMock(),
-          time: moment()
-        }))
-        .toThrow(new Error(exceptionMsg.noTimeZone));
+        targetEl: document.createElement('div'),
+        storeCurrentTime: new StoreCurrentTimeMock(),
+        time: moment()
+      }))
+      .toThrow(new Error(exceptionMsg.noTimeZone));
     });
   });
 

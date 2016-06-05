@@ -38,11 +38,12 @@ export class Dashboard extends Element {
 
   addNewTimezoneForm() {
     new NewTimezoneForm({
-      targetEl: this.domEl.addTzContainer
+      targetEl: this.domEl.addTzContainer,
+      onAddTimezone: this.addNewTimeZone.bind(this)
     });
   }
 
-  //TODO: TEST IT
+  // TODO: TEST IT
   initMainTimezones() {
     new TimezoneCard({
       targetEl: this.domEl.mainTzContainer,
@@ -54,6 +55,16 @@ export class Dashboard extends Element {
       targetEl: this.domEl.mainTzContainer,
       time: this.storeCurrentTime.value,
       timezone: 'GMT',
+      storeCurrentTime: this.storeCurrentTime
+    });
+  }
+
+  // TODO: TEST IT
+  addNewTimeZone(value) {
+    new TimezoneCard({
+      targetEl: this.domEl.additionalTzContainer,
+      time: this.storeCurrentTime.value,
+      timezone: value,
       storeCurrentTime: this.storeCurrentTime
     });
   }

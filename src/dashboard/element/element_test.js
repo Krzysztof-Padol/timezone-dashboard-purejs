@@ -40,7 +40,7 @@ describe('Element', () => {
   describe('Assign dom elements', () => {
     let element;
     let divHolder;
-    let config;
+    let conf;
 
     const elementsQuery = {
       main: '.main',
@@ -50,7 +50,7 @@ describe('Element', () => {
 
     beforeEach(() => {
       divHolder = document.createElement('div');
-      config = {
+      conf = {
         targetEl: divHolder
       };
 
@@ -67,11 +67,11 @@ describe('Element', () => {
               </div>
             `);
 
-          this.config.targetEl.innerHTML = tempFn(); 
+          this.config.targetEl.innerHTML = tempFn();
         }
       }
 
-      element = new ChildElement(config, elementsQuery);
+      element = new ChildElement(conf, elementsQuery);
     });
 
     it('should have domEl defined', () => {
@@ -92,7 +92,7 @@ describe('Element', () => {
   describe('Smart listeners', () => {
     let element;
     let divHolder;
-    let config;
+    let conf;
 
     const elementsQuery = {
       main: '.main',
@@ -102,7 +102,7 @@ describe('Element', () => {
 
     beforeEach(() => {
       divHolder = document.createElement('div');
-      config = {
+      conf = {
         targetEl: divHolder
       };
 
@@ -119,11 +119,11 @@ describe('Element', () => {
               </div>
             `);
 
-          this.config.targetEl.innerHTML = tempFn(); 
+          this.config.targetEl.innerHTML = tempFn();
         }
       }
 
-      element = new ChildElement(config, elementsQuery);
+      element = new ChildElement(conf, elementsQuery);
     });
 
     it('should have addSmartListeners method defined', () => {
@@ -141,9 +141,8 @@ describe('Element', () => {
       expect(element.smartListeners.one.click).toEqual(cb);
     });
 
-    it(`should have remove element from array when 
+    it(`should have remove element from array when
         removeAllSmartListeners is called`, () => {
-
       let cb = jasmine.createSpy();
       element.addSmartListeners('one', 'click', cb);
       element.removeAllSmartListeners();

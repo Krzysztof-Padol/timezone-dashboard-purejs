@@ -54,4 +54,27 @@ describe('NewTimezoneForm', () => {
         .toEqual(divHolder.querySelector(elementsQuery.submitButton));
     });
   });
+
+  describe('onAddTimezone', () => {
+    let newTimezoneForm;
+    let divHolder;
+    let config;
+    let onAddTimezone;
+
+    beforeEach(() => {
+      onAddTimezone = jasmine.createSpy();
+      divHolder = document.createElement('div');
+      config = {
+        targetEl: divHolder,
+        onAddTimezone
+      };
+
+      newTimezoneForm = new NewTimezoneForm(config);
+    });
+
+    it('should invoke onAddTimezone after click on submit', () => {
+      newTimezoneForm.domEl.submitButton.click();
+      expect(onAddTimezone).toHaveBeenCalled();
+    });
+  });
 });

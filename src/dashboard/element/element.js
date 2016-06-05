@@ -18,7 +18,7 @@ export class Element {
     this.post();
 
     this.smartListeners = {};
-    this.addListeners()
+    this.addListeners();
   }
 
   checkConfig() {
@@ -39,31 +39,27 @@ export class Element {
 
   post() {}
 
-  addSmartListeners (elKey, eventName, cb) {
+  addSmartListeners(elKey, eventName, cb) {
     if (!this.smartListeners[elKey]) {
-      this.smartListeners[elKey] = {}
+      this.smartListeners[elKey] = {};
     }
-    
+
     this.smartListeners[elKey][eventName] = cb;
     this.domEl[elKey].addEventListener('click', cb);
   }
 
-  removeAllSmartListeners () {
-    for (let elKey in this.smartListeners) {
-      if (this.elementsQuery.hasOwnProperty(elKey)) {
-        for (let eventName in this.smartListeners[elKey]) {
-          if (this.smartListeners[elKey].hasOwnProperty(eventName)) {
-            this.domEl[elKey]
-              .removeEventListener(
-                eventName,
-                this.smartListeners[elKey][eventName]
-              );
+  removeAllSmartListeners() {
+    Object.keys(this.smartListeners).forEach((elKey) => {
+      Object.keys(this.smartListeners[elKey]).forEach((eventName) => {
+        this.domEl[elKey]
+          .removeEventListener(
+            eventName,
+            this.smartListeners[elKey][eventName]
+          );
 
-            delete this.smartListeners[elKey][eventName];
-          }
-        }
-      }
-    }
+        delete this.smartListeners[elKey][eventName];
+      });
+    });
   }
 
   assignDomElements() {
@@ -76,7 +72,9 @@ export class Element {
     }
   }
 
+  // TODO: test it
   removeElement() {
     this.removeAllSmartListeners();
+    this.config.targetEl.parentNode.removeChild(this.config.targetEl);
   }
 }

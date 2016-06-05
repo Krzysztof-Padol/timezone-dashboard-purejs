@@ -97,9 +97,13 @@ describe('Dashboard', () => {
     });
 
     it('should add new timezone form', () => {
-      expect(NewTimezoneFormMock).toHaveBeenCalledWith({
-        targetEl: divHolder.querySelector(elementsQuery.addTzContainer)
-      });
+      let lastCall = NewTimezoneFormMock
+        .calls
+        .mostRecent()
+        .args[0];
+
+      expect(lastCall.targetEl).toEqual(divHolder.querySelector(elementsQuery.addTzContainer));
+      expect(lastCall.onAddTimezone).toEqual(jasmine.any(Function));
     });
   });
 });
