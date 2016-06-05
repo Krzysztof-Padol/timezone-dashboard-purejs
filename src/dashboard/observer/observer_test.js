@@ -61,15 +61,15 @@ describe('Observer', () => {
     });
 
     it('should call registered function after calling fire method', () => {
-      var exampleVal = 123;
+      const exampleVal = 123;
 
       observer.register(registeredFn);
-      observer.fire(exampleVal)
+      observer.fire(exampleVal);
 
       expect(registeredFn).toHaveBeenCalledWith(123);
 
       observer.register(registeredFn2);
-      observer.fire(exampleVal)
+      observer.fire(exampleVal);
 
       expect(registeredFn2).toHaveBeenCalledWith(123);
     });

@@ -7,12 +7,12 @@ describe('StoreCurrentTime', () => {
   let momentMock;
   let momentValue = 123;
 
-  beforeEach(function() {
+  beforeEach(() => {
     momentMock = jasmine.createSpy();
     momentMock.and.returnValue(momentValue);
   });
 
-  beforeEach(function() {
+  beforeEach(() => {
     StoreCurrentTimeRewireAPI.__Rewire__('moment', momentMock);
   });
 
@@ -32,7 +32,7 @@ describe('StoreCurrentTime', () => {
     let storeCurrentTime;
     let registeredFn;
     let registeredFn2;
-    let newValue = 234;
+    const newValue = 234;
 
     beforeEach(() => {
       storeCurrentTime = new StoreCurrentTime();

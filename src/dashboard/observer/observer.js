@@ -12,6 +12,8 @@ class Observer {
       if (item !== fn) {
         return item;
       }
+
+      return false;
     });
   }
 
