@@ -1,5 +1,13 @@
-body {
-  padding-top: 50px;
+.centered {
+   text-align: center;
+   font-size: 0;
+}
+.centered > div {
+   float: none;
+   display: inline-block;
+   text-align: left;
+   font-size: 13px;
 }
 
-@import 'timezone-card'
+@import 'timezone-card';
+@import 'new-timezone-form';

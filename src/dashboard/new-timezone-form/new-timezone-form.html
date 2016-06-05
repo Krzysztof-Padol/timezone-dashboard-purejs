@@ -1,8 +1,10 @@
+<i class="fa fa-clock-o fa-10x fa-lg" aria-hidden="true"></i>
+<p class="lead">Welcome at brand new timezone dashboard!<br> Click on the card to flip it!</p>
 <form name="add-timezone" class="form-inline" onkeypress="return event.keyCode != 13" onSubmit="return false;">
-  <select id="ddTimezone" class="form-control">
+  <select id="ddTimezone" class="form-control input-lg">
     {{~it.timezones :value:index}}
       <option value="{{=value}}">{{=value}}</option>
     {{~}}
   </select>
-  <button type="submit" class="btn btn-primary">Add timezone</button>
+  <button type="submit" class="btn btn-primary btn-lg">Add timezone</button>
 </form>

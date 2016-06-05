@@ -14,7 +14,7 @@ describe('TimezoneCard', () => {
   let config;
 
   beforeEach(() => {
-    StoreCurrentTimeMock = function StoreCurrentTime() {
+    StoreCurrentTimeMock = function () {
       this.register = jasmine.createSpy();
       this.unregister = jasmine.createSpy();
       this.update = jasmine.createSpy();

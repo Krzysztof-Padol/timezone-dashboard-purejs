@@ -11,7 +11,7 @@ export {exceptionMsg};
 export const elementsQuery = {
   mainTzContainer: '#main-timezones-container',
   addTzContainer: '#add-timezone-container',
-  additionalTzContainer: '#add-timezone-container'
+  additionalTzContainer: '#additional-timezones-container'
 };
 
 export class Dashboard extends Element {
@@ -46,12 +46,14 @@ export class Dashboard extends Element {
   initMainTimezones() {
     new TimezoneCard({
       targetEl: this.domEl.mainTzContainer,
+      cssClass: 'col-xs-12 col-md-6',
       time: this.storeCurrentTime.value,
       timezone: moment.tz.guess(),
       storeCurrentTime: this.storeCurrentTime
     });
     new TimezoneCard({
       targetEl: this.domEl.mainTzContainer,
+      cssClass: 'col-xs-12 col-md-6',
       time: this.storeCurrentTime.value,
       timezone: 'GMT',
       storeCurrentTime: this.storeCurrentTime

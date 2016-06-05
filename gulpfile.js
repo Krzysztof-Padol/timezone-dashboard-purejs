@@ -70,7 +70,7 @@ gulp.task('watch', ['build-and-add-statics', 'sass:watch', 'index:watch'], funct
   });
 });
 
-gulp.task('sass', ['clean'],function () {
+gulp.task('sass',function () {
   return gulp.src('./sass/main.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer({

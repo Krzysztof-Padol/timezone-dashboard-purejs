@@ -57,21 +57,8 @@ describe('Element', () => {
   });
 
   describe('constructor', () => {
-    let element;
-    let divHolder;
-    let config;
-
-    beforeEach(() => {
-      divHolder = document.createElement('div');
-      config = {
-        targetEl: divHolder
-      };
-
-      element = new Element(config);
-    });
-
     it('should assing config', () => {
-      expect(element.config).toBe(config);
+      expect(element.config).toBe(conf);
     });
 
     it('should have prepared object for a dom elements', () => {

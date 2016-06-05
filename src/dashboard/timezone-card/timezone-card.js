@@ -11,12 +11,15 @@ const exceptionMsgInternal = Object.assign({}, exceptionMsg, {
   noTimeZone: 'Please pass timezone'
 });
 
+const defaultCssClass = 'col-xs-12 col-sm-6 col-md-3 col-lg-2';
+
 export {exceptionMsgInternal as exceptionMsg};
 
 export const elementsQuery = {
   flipContainer: '.timezone-card__flip-container',
   timeContainer: '.timezone-card__time-container',
   deleteIcon: '.timezone-card__delete',
+  backButton: '.timezone-card__backButton',
   dateInput: 'input[type="date"]',
   timeInput: 'input[type="time"]',
   changeButton: 'button[type="submit"]'
@@ -49,7 +52,8 @@ export class TimezoneCard extends Element {
       time: this.config.time.clone().tz(this.config.timezone).format('lll'),
       dateFormat: this.config.time.clone().tz(this.config.timezone).format('YYYY-MM-DD'),
       timeFormat: this.config.time.clone().tz(this.config.timezone).format('hh:mm'),
-      timezone: this.config.timezone
+      timezone: this.config.timezone,
+      cssClass: this.config.cssClass || defaultCssClass
     });
 
     this.config.targetEl = div;
@@ -75,9 +79,13 @@ export class TimezoneCard extends Element {
       this.storeCurrentTime.update(newDateTimeMoment);
     });
     this.addSmartListeners('flipContainer', 'click', (e) => {
-      if (e.target.className === 'timezone-card__front' || e.target.className === 'timezone-card__back') {
+      if (e.target.className === 'timezone-card__front'
+       || e.target.className === 'timezone-card__back') {
         this.domEl.flipContainer.classList.toggle('timezone-card--flipped');
       }
+    });
+    this.addSmartListeners('backButton', 'click', () => {
+      this.domEl.flipContainer.classList.toggle('timezone-card--flipped');
     });
   }
 

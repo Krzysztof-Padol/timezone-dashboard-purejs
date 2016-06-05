@@ -1,0 +1,19 @@
+$new-timezone-form-bg-color: #2ABE99;
+
+#add-timezone-container {
+  background-color: $new-timezone-form-bg-color;
+  margin-top: 30px;
+  padding: 40px 0 80px;
+
+  .fa.fa-10x {
+   font-size: 10em;
+  }
+
+  .lead {
+    margin: 20px 0;
+  }
+}
+
+#ddTimezone {
+  margin: 10px 0;
+}

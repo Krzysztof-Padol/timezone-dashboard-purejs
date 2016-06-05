@@ -1,17 +1,18 @@
-<div class="timezone-card col-xs-12 col-sm-6 col-md-3 col-lg-2">
+<article class="timezone-card {{=it.cssClass}}">
   <div class="timezone-card__flip-container">
-    <div class="timezone-card__front">
-      <div class="timezone-card__time-container">{{=it.time}}</div>
-        <div>{{=it.timezone}}</div>
-        <i class="fa fa-times timezone-card__delete" aria-hidden="true"></i>
-    </div>
-    <div class="timezone-card__back">
-      <form name="change-datetime" onkeypress="return event.keyCode != 13" onSubmit="return false;">
-          Change time:
-          <input type="date" value="{{=it.dateFormat}}" name="newDate">
-          <input type="time" value="{{=it.timeFormat}}" name="newTime">
-        <button type="submit" class="btn btn-primary">Change</button>
+    <section class="timezone-card__front">
+      <h2 class="timezone-card__time-container">{{=it.time}}</h2>
+      <h4>{{=it.timezone}}</h4>
+      <i class="fa fa-times fa-2x timezone-card__delete" aria-hidden="true"></i>
+    </section>
+    <section class="timezone-card__back">
+      <form class="text-center" name="change-datetime" onkeypress="return event.keyCode != 13" onSubmit="return false;">
+          <h3>Change time</h3>
+          <input type="date" class="form-control input-md" value="{{=it.dateFormat}}" name="newDate">
+          <input type="time" class="form-control input-md" value="{{=it.timeFormat}}" name="newTime">
+          <button type="button" class="timezone-card__backButton btn btn-default">Back</button>
+          <button type="submit" class="btn btn-md btn-primary">Change</button>
       </form>
-    </div>
+    </section>
   </div>
-</div>
+</article>

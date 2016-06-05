@@ -126,7 +126,7 @@ describe('Dashboard', () => {
     it('should create TimezoneCard Object', () => {
       let lastCall;
       dashboard.addNewTimeZone('EST');
-      
+
       lastCall = TimezoneCardMock
         .calls
         .mostRecent()
