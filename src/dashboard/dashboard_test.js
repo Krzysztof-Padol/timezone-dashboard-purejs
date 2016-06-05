@@ -5,10 +5,26 @@ import {
   __RewireAPI__ as DashboardRewireAPI
 } from './dashboard.js';
 
+describe('Dashboard config', () => {
+  describe('passing config to constructor', () => {
+    it('should throw error when config will be without target element', () => {
+      expect(() => new Dashboard()).toThrow(new Error(exceptionMsg.noTargetEl));
+    });
+
+    it('should throw error when targetEl in config will be different then DOM element', () => {
+      expect(() => new Dashboard({targetEl: 123})).toThrow(new Error(exceptionMsg.noDomTargetEl));
+    });
+  });
+});
+
 describe('Dashboard', () => {
   let NewTimezoneFormMock;
   let StoreCurrentTimeMock;
   let TimezoneCardMock;
+  let momentMock;
+  let dashboard;
+  let divHolder;
+  let config;
 
   beforeEach(() => {
     NewTimezoneFormMock = jasmine.createSpy();
@@ -22,33 +38,27 @@ describe('Dashboard', () => {
 
   beforeEach(() => {
     TimezoneCardMock = jasmine.createSpy();
-    DashboardRewireAPI.__Rewire__('TimezoneCard', StoreCurrentTimeMock);
+    DashboardRewireAPI.__Rewire__('TimezoneCard', TimezoneCardMock);
   });
 
-  describe('passing config to constructor', () => {
-    it('should throw error when config will be without target element', () => {
-      expect(() => new Dashboard()).toThrow(new Error(exceptionMsg.noTargetEl));
-    });
+  beforeEach(() => {
+    momentMock = {
+      tz: jasmine.createSpyObj('tz', ['guess'])
+    };
+    momentMock.tz.guess.and.returnValue('Europe/Warsaw');
+    DashboardRewireAPI.__Rewire__('moment', momentMock);
+  });
 
-    it('should throw error when targetEl in config will be different then DOM element', () => {
-      expect(() => new Dashboard({targetEl: 123})).toThrow(new Error(exceptionMsg.noDomTargetEl));
-    });
+  beforeEach(() => {
+    divHolder = document.createElement('div');
+    config = {
+      targetEl: divHolder
+    };
+
+    dashboard = new Dashboard(config);
   });
 
   describe('constructor', () => {
-    let dashboard;
-    let divHolder;
-    let config;
-
-    beforeEach(() => {
-      divHolder = document.createElement('div');
-      config = {
-        targetEl: divHolder
-      };
-
-      dashboard = new Dashboard(config);
-    });
-
     it('should assing config', () => {
       expect(dashboard.config).toBe(config);
     });
@@ -84,18 +94,6 @@ describe('Dashboard', () => {
   });
 
   describe('add elements function', () => {
-    let divHolder;
-    let config;
-
-    beforeEach(() => {
-      divHolder = document.createElement('div');
-      config = {
-        targetEl: divHolder
-      };
-
-      new Dashboard(config);
-    });
-
     it('should add new timezone form', () => {
       let lastCall = NewTimezoneFormMock
         .calls
@@ -104,6 +102,37 @@ describe('Dashboard', () => {
 
       expect(lastCall.targetEl).toEqual(divHolder.querySelector(elementsQuery.addTzContainer));
       expect(lastCall.onAddTimezone).toEqual(jasmine.any(Function));
+    });
+  });
+
+  describe('initialization main timezones', () => {
+    it('should add two new timezone cards', () => {
+      let lastCall = TimezoneCardMock
+        .calls
+        .mostRecent()
+        .args[0];
+      let firstCall = TimezoneCardMock
+        .calls
+        .first()
+        .args[0];
+
+      expect(TimezoneCardMock.calls.count()).toBe(2);
+      expect(firstCall.timezone).toEqual('Europe/Warsaw');
+      expect(lastCall.timezone).toEqual('GMT');
+    });
+  });
+
+  describe('add new custom timezones', () => {
+    it('should create TimezoneCard Object', () => {
+      let lastCall;
+      dashboard.addNewTimeZone('EST');
+      
+      lastCall = TimezoneCardMock
+        .calls
+        .mostRecent()
+        .args[0];
+
+      expect(lastCall.timezone).toEqual('EST');
     });
   });
 });

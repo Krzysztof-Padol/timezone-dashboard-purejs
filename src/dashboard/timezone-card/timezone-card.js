@@ -62,7 +62,6 @@ export class TimezoneCard extends Element {
     this.storeCurrentTime.register(this.onCurrentTimeChange);
   }
 
-  // TODO: test it
   addListeners() {
     this.addSmartListeners('deleteIcon', 'click', this.removeElement.bind(this));
     this.addSmartListeners('changeButton', 'click', () => {
@@ -81,12 +80,10 @@ export class TimezoneCard extends Element {
     this.storeCurrentTime.unregister(this.onCurrentTimeChange);
   }
 
-  // TODO: test it
   onNewTime(newMomentTime) {
     this.updateTime(newMomentTime);
   }
 
-  // TODO: test it
   updateTime(time) {
     this.config.time = time.clone().tz(this.config.timezone).format('lll');
     this.domEl.timeContainer.innerHTML = this.config.time;

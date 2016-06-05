@@ -43,7 +43,6 @@ export class Dashboard extends Element {
     });
   }
 
-  // TODO: TEST IT
   initMainTimezones() {
     new TimezoneCard({
       targetEl: this.domEl.mainTzContainer,
@@ -59,7 +58,6 @@ export class Dashboard extends Element {
     });
   }
 
-  // TODO: TEST IT
   addNewTimeZone(value) {
     new TimezoneCard({
       targetEl: this.domEl.additionalTzContainer,

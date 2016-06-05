@@ -8,12 +8,31 @@ import moment from 'moment-timezone';
 
 describe('TimezoneCard', () => {
   let StoreCurrentTimeMock;
+  let timezoneCard;
+  let divHolder;
+  let StoreCurrentTime;
+  let config;
+
   beforeEach(() => {
     StoreCurrentTimeMock = function StoreCurrentTime() {
       this.register = jasmine.createSpy();
       this.unregister = jasmine.createSpy();
+      this.update = jasmine.createSpy();
     };
     TimezoneCardRewireAPI.__Rewire__('StoreCurrentTime', StoreCurrentTimeMock);
+  });
+
+  beforeEach(() => {
+    divHolder = document.createElement('div');
+    StoreCurrentTime = new StoreCurrentTimeMock();
+    config = {
+      targetEl: divHolder,
+      storeCurrentTime: StoreCurrentTime,
+      time: moment(),
+      timezone: 'GMT'
+    };
+
+    timezoneCard = new TimezoneCard(config);
   });
 
   describe('passing config to constructor', () => {
@@ -61,24 +80,6 @@ describe('TimezoneCard', () => {
   });
 
   describe('constructor', () => {
-    let timezoneCard;
-    let divHolder;
-    let StoreCurrentTime;
-    let config;
-
-    beforeEach(() => {
-      divHolder = document.createElement('div');
-      StoreCurrentTime = new StoreCurrentTimeMock();
-      config = {
-        targetEl: divHolder,
-        storeCurrentTime: StoreCurrentTime,
-        time: moment(),
-        timezone: 'GMT'
-      };
-
-      timezoneCard = new TimezoneCard(config);
-    });
-
     it('should assing config', () => {
       expect(timezoneCard.config).toBe(config);
     });
@@ -122,6 +123,43 @@ describe('TimezoneCard', () => {
         .toEqual(divHolder.querySelector(elementsQuery.timeInput));
       expect(timezoneCard.domEl.changeButton)
         .toEqual(divHolder.querySelector(elementsQuery.changeButton));
+    });
+  });
+
+  describe('deleteIcon', () => {
+    it('should invoke unregister after click on delete', () => {
+      timezoneCard.domEl.deleteIcon.click();
+      expect(StoreCurrentTime.unregister).toHaveBeenCalled();
+    });
+
+    it('should invoke remove element from divHolder after click on delete', () => {
+      timezoneCard.domEl.deleteIcon.click();
+      expect(divHolder.querySelector(elementsQuery.timeContainer)).toBe(null);
+    });
+  });
+
+  describe('changeButton', () => {
+    it('should invoke unregister after click on changeButton', () => {
+      timezoneCard.domEl.changeButton.click();
+      expect(StoreCurrentTime.update).toHaveBeenCalled();
+    });
+  });
+
+  describe('onNewTime', () => {
+    it('should should update config after invoke', () => {
+      let time = moment();
+      let expectedTime = time.clone().tz(timezoneCard.config.timezone).format('lll');
+
+      timezoneCard.onNewTime(time);
+      expect(timezoneCard.config.time).toEqual(expectedTime);
+    });
+
+    it('should should update dom after invoke', () => {
+      let time = moment();
+      let expectedTime = time.clone().tz(timezoneCard.config.timezone).format('lll');
+      timezoneCard.onNewTime(time);
+
+      expect(timezoneCard.domEl.timeContainer.innerText).toEqual(expectedTime);
     });
   });
 });

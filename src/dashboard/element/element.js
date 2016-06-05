@@ -72,7 +72,6 @@ export class Element {
     }
   }
 
-  // TODO: test it
   removeElement() {
     this.removeAllSmartListeners();
     this.config.targetEl.parentNode.removeChild(this.config.targetEl);

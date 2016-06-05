@@ -1,7 +1,7 @@
 import {Element, exceptionMsg} from './element.js';
 import doT from 'dot';
 
-describe('Element', () => {
+describe('Element no config', () => {
   describe('passing config to constructor', () => {
     it('should throw error when config will be without target element', () => {
       expect(() => new Element())
@@ -12,6 +12,48 @@ describe('Element', () => {
       expect(() => new Element({targetEl: 123}))
         .toThrow(new Error(exceptionMsg.noDomTargetEl));
     });
+  });
+});
+
+describe('Element', () => {
+  let element;
+  let divHolder;
+  let divWrapper;
+  let conf;
+
+  const elementsQuery = {
+    main: '.main',
+    one: '.one',
+    two: '.two'
+  };
+
+  beforeEach(() => {
+    divHolder = document.createElement('div');
+    divWrapper = document.createElement('div');
+    conf = {
+      targetEl: divHolder
+    };
+
+    divWrapper.appendChild(divHolder);
+
+    class ChildElement extends Element {
+      constructor(config) {
+        super(config, elementsQuery);
+      }
+
+      render() {
+        let tempFn = doT.template(`
+            <div class="main">
+              <div class="one"></div>
+              <div class="two"></div>
+            </div>
+          `);
+
+        this.config.targetEl.innerHTML = tempFn();
+      }
+    }
+
+    element = new ChildElement(conf, elementsQuery);
   });
 
   describe('constructor', () => {
@@ -37,43 +79,7 @@ describe('Element', () => {
     });
   });
 
-  describe('Assign dom elements', () => {
-    let element;
-    let divHolder;
-    let conf;
-
-    const elementsQuery = {
-      main: '.main',
-      one: '.one',
-      two: '.two'
-    };
-
-    beforeEach(() => {
-      divHolder = document.createElement('div');
-      conf = {
-        targetEl: divHolder
-      };
-
-      class ChildElement extends Element {
-        constructor(config) {
-          super(config, elementsQuery);
-        }
-
-        render() {
-          let tempFn = doT.template(`
-              <div class="main">
-                <div class="one"></div>
-                <div class="two"></div>
-              </div>
-            `);
-
-          this.config.targetEl.innerHTML = tempFn();
-        }
-      }
-
-      element = new ChildElement(conf, elementsQuery);
-    });
-
+  describe('assign dom elements', () => {
     it('should have domEl defined', () => {
       expect(element.domEl).toBeDefined();
       expect(element.domEl).toEqual(jasmine.any(Object));
@@ -90,42 +96,6 @@ describe('Element', () => {
   });
 
   describe('Smart listeners', () => {
-    let element;
-    let divHolder;
-    let conf;
-
-    const elementsQuery = {
-      main: '.main',
-      one: '.one',
-      two: '.two'
-    };
-
-    beforeEach(() => {
-      divHolder = document.createElement('div');
-      conf = {
-        targetEl: divHolder
-      };
-
-      class ChildElement extends Element {
-        constructor(config) {
-          super(config, elementsQuery);
-        }
-
-        render() {
-          let tempFn = doT.template(`
-              <div class="main">
-                <div class="one"></div>
-                <div class="two"></div>
-              </div>
-            `);
-
-          this.config.targetEl.innerHTML = tempFn();
-        }
-      }
-
-      element = new ChildElement(conf, elementsQuery);
-    });
-
     it('should have addSmartListeners method defined', () => {
       expect(element.addSmartListeners).toBeDefined();
     });
@@ -165,6 +135,22 @@ describe('Element', () => {
 
       element.domEl.one.click();
       expect(cb).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('removeElement', () => {
+    it(`should have remove element from listeners array when
+        removeElement is called`, () => {
+      let cb = jasmine.createSpy();
+      element.addSmartListeners('one', 'click', cb);
+      element.removeElement();
+
+      expect(element.smartListeners.one.click).not.toBeDefined();
+    });
+
+    it('should invoke remove element from divHolder after click on delete', () => {
+      element.removeElement();
+      expect(divWrapper.querySelector(elementsQuery.main)).toBe(null);
     });
   });
 });
