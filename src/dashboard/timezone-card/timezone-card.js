@@ -14,8 +14,9 @@ const exceptionMsgInternal = Object.assign({}, exceptionMsg, {
 export {exceptionMsgInternal as exceptionMsg};
 
 export const elementsQuery = {
-  timeContainer: '.time-container',
-  deleteIcon: '.delete',
+  flipContainer: '.timezone-card__flip-container',
+  timeContainer: '.timezone-card__time-container',
+  deleteIcon: '.timezone-card__delete',
   dateInput: 'input[type="date"]',
   timeInput: 'input[type="time"]',
   changeButton: 'button[type="submit"]'
@@ -72,6 +73,12 @@ export class TimezoneCard extends Element {
       let newDateTimeMoment = moment.tz(newDateTime, this.config.timezone);
 
       this.storeCurrentTime.update(newDateTimeMoment);
+    });
+    this.addSmartListeners('flipContainer', 'click', (e) => {
+      console.log('hehe');
+      if (e.target.className === 'timezone-card__front' || e.target.className === 'timezone-card__back') {
+        this.domEl.flipContainer.classList.toggle('timezone-card--flipped');
+      }
     });
   }
 

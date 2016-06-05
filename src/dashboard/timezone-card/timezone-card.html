@@ -1,11 +1,17 @@
-<div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
-  <div class="time-container">{{=it.time}}</div>
-  <div>{{=it.timezone}}</div>
-  <i class="fa fa-times delete" aria-hidden="true"></i>
-  <form name="change-datetime" onkeypress="return event.keyCode != 13" onSubmit="return false;">
-      Change time:
-      <input type="date" value="{{=it.dateFormat}}" name="newDate">
-      <input type="time" value="{{=it.timeFormat}}" name="newTime">
-    <button type="submit" class="btn btn-primary">Change</button>
-  </form>
+<div class="timezone-card col-xs-12 col-sm-6 col-md-3 col-lg-2">
+  <div class="timezone-card__flip-container">
+    <div class="timezone-card__front">
+      <div class="timezone-card__time-container">{{=it.time}}</div>
+        <div>{{=it.timezone}}</div>
+        <i class="fa fa-times timezone-card__delete" aria-hidden="true"></i>
+    </div>
+    <div class="timezone-card__back">
+      <form name="change-datetime" onkeypress="return event.keyCode != 13" onSubmit="return false;">
+          Change time:
+          <input type="date" value="{{=it.dateFormat}}" name="newDate">
+          <input type="time" value="{{=it.timeFormat}}" name="newTime">
+        <button type="submit" class="btn btn-primary">Change</button>
+      </form>
+    </div>
+  </div>
 </div>
