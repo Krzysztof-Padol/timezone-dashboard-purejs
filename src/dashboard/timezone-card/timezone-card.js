@@ -75,7 +75,6 @@ export class TimezoneCard extends Element {
       this.storeCurrentTime.update(newDateTimeMoment);
     });
     this.addSmartListeners('flipContainer', 'click', (e) => {
-      console.log('hehe');
       if (e.target.className === 'timezone-card__front' || e.target.className === 'timezone-card__back') {
         this.domEl.flipContainer.classList.toggle('timezone-card--flipped');
       }
